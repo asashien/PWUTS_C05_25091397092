@@ -1,0 +1,144 @@
+<!-- pages/catalog.html - Mock Up L11: Formulir Manajemen Katalog & Stok -->
+<div class="view-header">
+  <div class="view-title-group">
+    <h2>🍱 Manajemen Katalog & Stok Menu Stan</h2>
+    <div class="view-subtitle">
+      Implementasi Sequence Diagram C & Diagram 1.2: Tambah menu baru, edit rincian harga, hapus, dan toggle stok ketersediaan real-time.
+    </div>
+  </div>
+  <div>
+    <button class="btn-add-menu" id="btnOpenAddMenu">
+      <span>+ Tambah Menu Baru</span>
+    </button>
+  </div>
+</div>
+
+<!-- CATALOG TOOLBAR: FILTERS & SEARCH (Mock Up L11) -->
+<div class="catalog-toolbar">
+  <div class="catalog-filters">
+    <button class="btn-filter-pill btn-catalog-filter active" data-filter="ALL">
+      Semua Menu <span id="filterCountAll">(4)</span>
+    </button>
+    <button class="btn-filter-pill btn-catalog-filter" data-filter="AVAILABLE">
+      🟢 Stok Tersedia <span id="filterCountAvailable">(4)</span>
+    </button>
+    <button class="btn-filter-pill btn-catalog-filter" data-filter="SOLDOUT">
+      🔴 Stok Habis <span id="filterCountSoldout">(0)</span>
+    </button>
+  </div>
+
+  <div class="catalog-search-box">
+    <span class="catalog-search-icon">🔍</span>
+    <input type="text" id="catalogSearchInput" class="catalog-search-input" placeholder="Cari nama menu, deskripsi...">
+  </div>
+</div>
+
+<!-- CATALOG GRID OF MENU ITEMS (Mock Up L11) -->
+<div class="catalog-grid" id="catalogGridContainer">
+  <!-- Dynamic menu cards rendered by CatalogModule.render() -->
+</div>
+
+<!-- MODAL FORM TRANSAKSI: INPUT & EDIT MENU BARU (Item 2.c Requirement) -->
+<div class="modal-overlay" id="modalMenuForm">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modalMenuTitle">🍱 Tambah Menu Baru ke Stan</h3>
+      <button class="btn-modal-close" onclick="CatalogModule.closeModal('modalMenuForm')">✕</button>
+    </div>
+
+    <form id="formMenu" novalidate>
+      <div class="modal-body">
+        <!-- Field 1: Nama Makanan / Minuman -->
+        <div class="form-group">
+          <label for="menuNameInput">Nama Menu Makanan / Minuman <span class="required">*</span></label>
+          <input type="text" id="menuNameInput" class="form-control" placeholder="Contoh: Ayam Geprek Sambal Bawang" autocomplete="off">
+          <div class="form-error-feedback" id="errorMenuName"></div>
+          <div class="form-hint">Nama resmi yang tampil di katalog pelanggan & kitchen display.</div>
+        </div>
+
+        <div class="form-row">
+          <!-- Field 2: Kategori Menu -->
+          <div class="form-group">
+            <label for="menuCategorySelect">Kategori Produk <span class="required">*</span></label>
+            <select id="menuCategorySelect" class="form-control">
+              <option value="">-- Pilih Kategori --</option>
+              <option value="1">Makanan Berat</option>
+              <option value="2">Jajanan & Dimsum</option>
+              <option value="3">Minuman & Kopi</option>
+              <option value="4">Camilan & Penutup</option>
+            </select>
+            <div class="form-error-feedback" id="errorMenuCategory"></div>
+          </div>
+
+          <!-- Field 3: Harga Menu -->
+          <div class="form-group">
+            <label for="menuPriceInput">Harga Jual (Rp) <span class="required">*</span></label>
+            <input type="number" id="menuPriceInput" class="form-control" placeholder="Contoh: 35000" min="1000" step="500">
+            <div class="form-error-feedback" id="errorMenuPrice"></div>
+            <div class="form-hint" id="menuPricePreview">Format: angka tanpa titik/koma</div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <!-- Field 4: Stok Fisik Awal -->
+          <div class="form-group">
+            <label for="menuStockInput">Jumlah Stok Porsi <span class="required">*</span></label>
+            <input type="number" id="menuStockInput" class="form-control" placeholder="Contoh: 25" min="0" value="20">
+            <div class="form-error-feedback" id="errorMenuStock"></div>
+            <div class="form-hint">Jumlah ketersediaan porsi per hari.</div>
+          </div>
+
+          <!-- Field 5: Status Ketersediaan Langsung -->
+          <div class="form-group" style="display: flex; flex-direction: column; justify-content: center;">
+            <label>Status Ketersediaan</label>
+            <div style="display: flex; align-items: center; gap: 0.6rem; margin-top: 0.35rem;">
+              <input type="checkbox" id="menuAvailableToggle" checked style="width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer;">
+              <label for="menuAvailableToggle" style="margin-bottom: 0; cursor: pointer; color: var(--text-main); font-weight: 600;">
+                Tersedia Langsung di Katalog
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Field 6: Deskripsi Menu -->
+        <div class="form-group">
+          <label for="menuDescInput">Deskripsi Makanan / Minuman <span class="required">*</span></label>
+          <textarea id="menuDescInput" class="form-control" rows="3" placeholder="Jelaskan cita rasa, bumbu khas, atau keunggulan menu ini..."></textarea>
+          <div class="form-error-feedback" id="errorMenuDesc"></div>
+          <div class="form-hint">Minimal 10 karakter untuk memberi informasi lengkap ke pelanggan.</div>
+        </div>
+
+        <!-- Field 7: Tombol Unggah Foto Produk (Item 2.c Requirement) -->
+        <div class="form-group">
+          <label>Unggah Foto Produk Makanan <span class="required">*</span></label>
+          <div class="image-upload-wrapper">
+            <input type="file" id="menuImageFile" accept="image/jpeg, image/png, image/webp" style="display: none;">
+            
+            <div class="image-dropzone" id="menuImageDropzone">
+              <div class="image-dropzone-inner">
+                <span class="image-dropzone-icon">📷</span>
+                <span class="image-dropzone-text"><strong>Klik untuk unggah</strong> atau geser & lepas file foto ke sini</span>
+                <span class="image-dropzone-sub">Mendukung format JPG, PNG, atau WebP (Maksimal 2MB)</span>
+              </div>
+            </div>
+
+            <!-- Image Preview Box -->
+            <div class="image-preview-box" id="menuImagePreviewBox">
+              <img src="" id="menuImagePreviewImg" alt="Preview Foto Menu">
+              <button type="button" class="btn-remove-preview" id="btnRemovePhoto" title="Hapus Foto">✕</button>
+            </div>
+
+            <div class="form-error-feedback" id="errorMenuPhoto"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="CatalogModule.closeModal('modalMenuForm')">Batal</button>
+        <button type="submit" class="btn-primary" id="btnSubmitMenu">
+          <span>Simpan Data Menu</span> 💾
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

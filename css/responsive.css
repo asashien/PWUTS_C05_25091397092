@@ -1,0 +1,163 @@
+/**
+ * responsive.css - Responsive Web Design Breakpoints
+ * Ensures flawless viewing on Desktop, Laptop, Tablet, and Mobile
+ * NO BOOTSTRAP - Pure CSS Media Queries
+ */
+
+/* ==========================================================================
+   DESKTOP & LARGE SCREENS (Above 1200px)
+   ========================================================================== */
+@media (min-width: 1400px) {
+  .kds-grid, .catalog-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ==========================================================================
+   MEDIUM SCREENS & SMALL LAPTOPS (992px to 1199px)
+   ========================================================================== */
+@media (max-width: 1199px) {
+  :root {
+    --sidebar-width: 240px;
+  }
+
+  .stats-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .dashboard-content-split {
+    grid-template-columns: 1fr;
+  }
+
+  .kds-grid, .catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .kds-kanban-board {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ==========================================================================
+   TABLET & MOBILE (Below 992px)
+   ========================================================================== */
+@media (max-width: 991px) {
+  /* Mobile Sidebar Drawer */
+  .sidebar {
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .sidebar.active {
+    transform: translateX(0);
+  }
+
+  .main-wrapper {
+    margin-left: 0;
+    width: 100%;
+  }
+
+  .btn-mobile-toggle {
+    display: inline-flex;
+  }
+
+  /* Backdrop for mobile drawer */
+  .sidebar-backdrop {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 95;
+    backdrop-filter: blur(2px);
+  }
+
+  .sidebar-backdrop.active {
+    display: block;
+  }
+
+  .view-container {
+    padding: 1.25rem;
+  }
+
+  .kds-grid, .catalog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .kds-kanban-board {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ==========================================================================
+   MOBILE PHONES (Below 768px)
+   ========================================================================== */
+@media (max-width: 767px) {
+  .top-header {
+    padding: 0 1rem;
+    height: 64px;
+  }
+
+  .operational-pills .hours-pill {
+    display: none; /* Hide hours text on small mobile screens */
+  }
+
+  .booth-user-badge .user-name {
+    display: none; /* Show only tag on very small screens */
+  }
+
+  .stats-summary-grid {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+
+  .kds-grid, .catalog-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .catalog-search-box {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .catalog-toolbar, .kds-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .catalog-filters, .kds-filter-pills {
+    overflow-x: auto;
+    padding-bottom: 0.35rem;
+    flex-wrap: nowrap;
+  }
+
+  .btn-filter-pill {
+    white-space: nowrap;
+  }
+
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-dialog {
+    max-height: 95vh;
+  }
+
+  .modal-body {
+    padding: 1rem;
+  }
+
+  .toast-container {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+  }
+
+  .toast {
+    min-width: unset;
+    width: 100%;
+  }
+}

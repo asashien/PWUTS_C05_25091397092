@@ -1,0 +1,166 @@
+<!-- pages/profile.html - Mock Up L13: Profil Stan, Metode Pembayaran & Rekening Pencairan -->
+<div class="view-header">
+  <div class="view-title-group">
+    <h2>🏪 Profil Stan, Metode Pembayaran & Rekening</h2>
+    <div class="view-subtitle">
+      Setup Stan entity data, accepted payment methods, and bank disbursement accounts as per CLASS DIAGRAM.
+    </div>
+  </div>
+</div>
+
+<div class="dashboard-content-split">
+  <!-- Left Column: Form Profile, Payments & Banking -->
+  <div class="card">
+    <h3 style="color: var(--text-main); font-size: 1.05rem; font-weight: 600; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;">
+      <span>✏️ Update Informasi Operasional Stan</span>
+    </h3>
+    <p style="font-size: 0.78rem; color: var(--berry-dark); margin-bottom: 1.35rem;">
+      Data ini akan tampil di katalog QR pelanggan, struk digital, dan sistem admin pujasera.
+    </p>
+
+    <form id="formBoothProfile">
+      <div class="form-group">
+        <label for="profileBoothName">Culinary Booth Name (Nama Stan) <span class="required">*</span></label>
+        <input type="text" id="profileBoothName" class="form-control" required>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="profileLocation">Location / Booth Number <span class="required">*</span></label>
+          <input type="text" id="profileLocation" class="form-control" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="profileOpenHour">Jam Buka</label>
+            <input type="text" id="profileOpenHour" class="form-control" placeholder="09:00">
+          </div>
+          <div class="form-group">
+            <label for="profileCloseHour">Jam Tutup</label>
+            <input type="text" id="profileCloseHour" class="form-control" placeholder="21:30">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="profileDescription">Deskripsi & Profil Masakan Stan</label>
+        <textarea id="profileDescription" class="form-control" rows="3"></textarea>
+      </div>
+
+      <!-- KELOLA METODE PEMBAYARAN YANG DITERIMA STAN -->
+      <div style="background: linear-gradient(135deg, #fff7fa 0%, #ffffff 100%); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; margin-top: 1rem; margin-bottom: 1.35rem;">
+        <h4 style="color: var(--rose-primary); font-size: 0.88rem; font-weight: 600; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.45rem;">
+          <span>💳 Pilihan Metode Pembayaran yang Diterima</span>
+        </h4>
+        <p style="color: var(--berry-dark); font-size: 0.76rem; margin-bottom: 0.85rem;">
+          Atur opsi saluran pembayaran yang aktif untuk pesanan menu stan ini di kasir dan aplikasi meja pelanggan.
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.82rem;">
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="pmQris" checked style="width: 17px; height: 17px; accent-color: var(--rose-primary);">
+            <span><strong>QRIS Dinamis</strong> (GoPay, OVO, ShopeePay, BCA)</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="pmVa" checked style="width: 17px; height: 17px; accent-color: var(--rose-primary);">
+            <span><strong>Transfer VA Bank</strong> (BCA, Mandiri, BRI)</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="pmEwallet" checked style="width: 17px; height: 17px; accent-color: var(--rose-primary);">
+            <span><strong>E-Wallet Instan</strong> (Dana, ShopeePay, GoPay)</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="pmCash" checked style="width: 17px; height: 17px; accent-color: var(--rose-primary);">
+            <span><strong>Tunai di Kasir Stan / COD</strong></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- KELOLA REKENING PENCAIRAN DANA STAN -->
+      <div style="background: linear-gradient(135deg, #fff7fa 0%, #ffffff 100%); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; margin-top: 1rem; margin-bottom: 1.35rem;">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.25rem;">
+          <h4 style="color: var(--rose-primary); font-size: 0.88rem; font-weight: 600; display: flex; align-items: center; gap: 0.45rem;">
+            <span>🏦 Rekening & Saluran Pencairan Dana Penjualan</span>
+          </h4>
+          <button type="button" class="btn-secondary" onclick="App.openAddAccountModal()" style="font-size: 0.72rem; padding: 0.35rem 0.75rem;">
+            + Tambah Rekening Baru
+          </button>
+        </div>
+        <p style="color: var(--berry-dark); font-size: 0.76rem; margin-bottom: 0.85rem;">
+          Rekening tujuan transfer omset hasil penjualan stan dari pengelola pusat pujasera (Admin SWK).
+        </p>
+
+        <!-- Dynamic List of Disbursement Accounts -->
+        <div id="disbursementAccountsList">
+          <!-- Rendered by App.renderDisbursementAccounts() -->
+        </div>
+      </div>
+
+      <button type="submit" class="btn-primary" style="padding: 0.65rem 1.5rem;">
+        <span>💾 Simpan Perubahan Profil Stan</span>
+      </button>
+    </form>
+  </div>
+
+  <!-- Right Column: Variative Status Banner Card (Mock Up L13) -->
+  <div class="booth-info-column">
+    <div class="card">
+      <h3 style="color: var(--text-main); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.45rem;">
+        <span>⚡ Status Operasional Stan</span>
+      </h3>
+      <div style="font-size: 0.72rem; color: var(--berry-dark); margin-bottom: 1rem;">
+        CLASS DIAGRAM Method: openStan() / closeStan() / setBusy()
+      </div>
+
+      <div id="profileStatusCardContent">
+        <!-- Injected dynamically by App.renderProfileStatusCard() -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL TAMBAH REKENING / SALURAN PENCAIRAN BARU -->
+<div class="modal-overlay" id="modalAddAccount">
+  <div class="modal-dialog" style="max-width: 480px;">
+    <div class="modal-header">
+      <h3 class="modal-title">🏦 Tambah Rekening Pencairan Baru</h3>
+      <button class="btn-modal-close" onclick="App.closeModal('modalAddAccount')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="newAccountBank">Pilihan Bank / E-Wallet Merchant <span class="required">*</span></label>
+        <select id="newAccountBank" class="form-control">
+          <option value="Bank Mandiri">Bank Mandiri</option>
+          <option value="BCA (Bank Central Asia)">BCA (Bank Central Asia)</option>
+          <option value="BRI (Bank Rakyat Indonesia)">BRI (Bank Rakyat Indonesia)</option>
+          <option value="BNI (Bank Negara Indonesia)">BNI (Bank Negara Indonesia)</option>
+          <option value="Bank Jatim">Bank Jatim</option>
+          <option value="ShopeePay Merchant">ShopeePay Merchant</option>
+          <option value="GoPay Merchant">GoPay Merchant</option>
+          <option value="OVO Merchant">OVO Merchant</option>
+          <option value="DANA Bisnis">DANA Bisnis</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="newAccountNo">Nomor Rekening / Nomor Akun HP <span class="required">*</span></label>
+        <input type="text" id="newAccountNo" class="form-control" placeholder="Contoh: 1400019283741 / 08123456789">
+      </div>
+
+      <div class="form-group">
+        <label for="newAccountName">Nama Lengkap Pemilik Rekening <span class="required">*</span></label>
+        <input type="text" id="newAccountName" class="form-control" placeholder="Contoh: Sri Rahayu">
+      </div>
+
+      <div class="form-group" style="margin-bottom: 0;">
+        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+          <input type="checkbox" id="newAccountIsUtama" checked style="width: 16px; height: 16px; accent-color: var(--rose-primary);">
+          <span>Jadikan sebagai Rekening Pencairan Utama</span>
+        </label>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn-secondary" onclick="App.closeModal('modalAddAccount')">Batal</button>
+      <button type="button" class="btn-primary" onclick="App.saveNewAccount()">Simpan Rekening</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,137 @@
+<!-- pages/kitchen.html - Mock Up L10: Antarmuka Pesanan Dapur / Kitchen Display System -->
+<div class="view-header">
+  <div class="view-title-group">
+    <h2>🍳 Kitchen Display & Pemrosesan Pesanan</h2>
+    <div class="view-subtitle">
+      Implementasi Sequence Diagram B: Terima Pesanan → Masak (IN_PROCESS) → Siap Saji (READY) → Konfirmasi Selesai (COMPLETED).
+    </div>
+  </div>
+  <div class="kds-actions-group">
+    <button class="btn-kds-simulate" id="btnSimulateOrder">
+      <span>+ Simulasi Pesanan Masuk</span> 🔔
+    </button>
+    <button class="btn-secondary" id="btnRefreshOrders" style="font-size: 0.78rem; padding: 0.45rem 0.85rem;">
+      <span>🔄 Refresh Pesanan</span>
+    </button>
+    <button class="btn-secondary" id="btnResetOrders" title="Kembalikan semua pesanan dapur ke data demo awal UTS" style="font-size: 0.78rem; padding: 0.45rem 0.85rem;">
+      <span>↺ Reset Data Demo</span>
+    </button>
+  </div>
+</div>
+
+<!-- KDS TOOLBAR (FILTERS & VIEW SWITCHER) -->
+<div class="kds-toolbar">
+  <div class="kds-filter-pills">
+    <button class="btn-filter-pill pill-all active" data-status="ALL">
+      Semua Pesanan
+    </button>
+    <button class="btn-filter-pill pill-waiting" data-status="WAITING_ACCEPTANCE">
+      ⏳ Menunggu Konfirmasi
+    </button>
+    <button class="btn-filter-pill pill-cooking" data-status="IN_PROCESS">
+      🍳 Sedang Dimasak
+    </button>
+    <button class="btn-filter-pill pill-ready" data-status="READY">
+      🔔 Siap Diambil / Diantar
+    </button>
+    <button class="btn-filter-pill pill-finished" data-status="COMPLETED">
+      ✅ Selesai
+    </button>
+  </div>
+
+  <div style="display: flex; align-items: center; gap: 0.5rem;">
+    <span style="font-size: 0.75rem; color: var(--text-muted);">Mode Tampilan:</span>
+    <button class="btn-view-toggle active" id="btnViewGrid" title="Tampilan Kartu Grid (Mock Up L10)">
+      ⏹️ Grid
+    </button>
+    <button class="btn-view-toggle" id="btnViewKanban" title="Tampilan Papan Geser Kanban Drag & Drop">
+      📋 Kanban Board
+    </button>
+  </div>
+</div>
+
+<!-- 1. GRID VIEW CONTAINER (Default Mock Up L10) -->
+<div class="kds-grid" id="kdsGridView">
+  <!-- Dynamic cards rendered by KitchenModule.render() -->
+</div>
+
+<!-- 2. KANBAN DRAG & DROP BOARD CONTAINER -->
+<div class="kds-kanban-board" id="kdsKanbanView">
+  <!-- Column 1: Waiting -->
+  <div class="kanban-column" id="kanbanWaiting">
+    <div class="kanban-column-header">
+      <span class="kanban-column-title" style="color: #fbbf24;">
+        <span>⏳ Menunggu</span>
+      </span>
+      <span class="kanban-count-pill">0</span>
+    </div>
+    <div class="kanban-dropzone" data-target-status="WAITING_ACCEPTANCE"></div>
+  </div>
+
+  <!-- Column 2: Cooking -->
+  <div class="kanban-column" id="kanbanCooking">
+    <div class="kanban-column-header">
+      <span class="kanban-column-title" style="color: #60a5fa;">
+        <span>🍳 Sedang Dimasak</span>
+      </span>
+      <span class="kanban-count-pill">0</span>
+    </div>
+    <div class="kanban-dropzone" data-target-status="IN_PROCESS"></div>
+  </div>
+
+  <!-- Column 3: Ready -->
+  <div class="kanban-column" id="kanbanReady">
+    <div class="kanban-column-header">
+      <span class="kanban-column-title" style="color: #22d3ee;">
+        <span>🔔 Siap Saji</span>
+      </span>
+      <span class="kanban-count-pill">0</span>
+    </div>
+    <div class="kanban-dropzone" data-target-status="READY"></div>
+  </div>
+
+  <!-- Column 4: Completed -->
+  <div class="kanban-column" id="kanbanCompleted">
+    <div class="kanban-column-header">
+      <span class="kanban-column-title" style="color: #4ade80;">
+        <span>✅ Selesai</span>
+      </span>
+      <span class="kanban-count-pill">0</span>
+    </div>
+    <div class="kanban-dropzone" data-target-status="COMPLETED"></div>
+  </div>
+</div>
+
+<!-- MODAL TOLAK PESANAN & TRIGGER REFUND (Activity Diagram 5.b) -->
+<div class="modal-overlay" id="modalRejectOrder">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h3 class="modal-title" style="color: #ef4444;">
+        <span>⛔ Tolak Sub-Pesanan & Trigger Refund</span>
+      </h3>
+      <button class="btn-modal-close" onclick="KitchenModule.closeModal('modalRejectOrder')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">
+        Sesuai SRS <em>Activity Diagram 5.b</em>: SubPesanan yang ditolak oleh pemilik stan setelah pembayaran lunas akan secara otomatis memicu catatan <strong>Refund</strong> dan mengembalikan dana ke pelanggan.
+      </p>
+
+      <div style="background: rgba(255,255,255,0.04); padding: 0.85rem; border-radius: var(--radius-sm); margin-bottom: 1rem; font-size: 0.8rem;">
+        <div>Nomor Pesanan: <strong style="color: var(--text-main);" id="rejectOrderId">-</strong></div>
+        <div>Nama Pelanggan: <span style="color: var(--text-secondary);" id="rejectCustomerName">-</span></div>
+      </div>
+
+      <input type="hidden" id="rejectSubId">
+
+      <div class="form-group">
+        <label for="rejectReasonInput">Alasan Penolakan <span class="required">*</span></label>
+        <textarea id="rejectReasonInput" class="form-control" rows="3" placeholder="Tuliskan alasan penolakan..."></textarea>
+        <div class="form-hint">Alasan ini akan dikirim via notifikasi ke aplikasi ponsel pelanggan.</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-secondary" onclick="KitchenModule.closeModal('modalRejectOrder')">Batal</button>
+      <button class="btn-danger" onclick="KitchenModule.confirmReject()">Konfirmasi Tolak & Refund</button>
+    </div>
+  </div>
+</div>

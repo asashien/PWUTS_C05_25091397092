@@ -1,0 +1,459 @@
+/**
+ * kitchen.css - Mock Up L10: Antarmuka Pesanan Dapur / Kitchen Display System (KDS)
+ * 100% Custom CSS for Kitchen Operations, Interactive Transitions & Kanban
+ * Palette: #e11d48, #f43f5e, #9f496e | Base: White Gradient
+ * Typography: Montserrat (Non-Chunky, Sleek)
+ */
+
+/* KDS HEADER & TOOLBAR */
+.kds-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.kds-filter-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-filter-pill {
+  padding: 0.45rem 0.95rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: #ffffff;
+  border: 1px solid rgba(159, 73, 110, 0.18);
+  color: var(--text-secondary);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.btn-filter-pill:hover {
+  background: #fff5f8;
+  color: var(--rose-primary);
+  border-color: var(--rose-primary);
+}
+
+.btn-filter-pill.active {
+  background: var(--gradient-primary);
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(225, 29, 72, 0.3);
+}
+
+.btn-filter-pill.pill-waiting.active {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  box-shadow: 0 3px 12px rgba(245, 158, 11, 0.3);
+}
+
+.btn-filter-pill.pill-cooking.active {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  box-shadow: 0 3px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-filter-pill.pill-ready.active {
+  background: linear-gradient(135deg, #0891b2, #0e7490);
+  box-shadow: 0 3px 12px rgba(8, 145, 178, 0.3);
+}
+
+.btn-filter-pill.pill-finished.active {
+  background: linear-gradient(135deg, #059669, #10b981);
+  box-shadow: 0 3px 12px rgba(16, 185, 129, 0.3);
+}
+
+.kds-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.btn-kds-simulate {
+  background: var(--gradient-accent);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.78rem;
+  padding: 0.5rem 1.05rem;
+  border-radius: var(--radius-full);
+  box-shadow: 0 3px 12px rgba(225, 29, 72, 0.25);
+  transition: var(--transition);
+}
+
+.btn-kds-simulate:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 5px 16px rgba(225, 29, 72, 0.35);
+}
+
+.btn-view-toggle {
+  background: #ffffff;
+  border: 1px solid rgba(159, 73, 110, 0.2);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.45rem 0.85rem;
+  border-radius: var(--radius-full);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.btn-view-toggle.active {
+  background: linear-gradient(135deg, #fff0f4 0%, #ffe4ec 100%);
+  border-color: var(--rose-primary);
+  color: var(--rose-primary);
+}
+
+/* ==========================================================================
+   GRID VIEW (Mock Up L10 Standard)
+   ========================================================================== */
+.kds-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.35rem;
+}
+
+/* KDS ORDER CARD (Mock Up L10) */
+.kds-card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.kds-card:hover {
+  border-color: rgba(225, 29, 72, 0.25);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Status-specific left accent */
+.kds-card.status-waiting { border-left: 5px solid #f59e0b; }
+.kds-card.status-cooking { border-left: 5px solid #3b82f6; }
+.kds-card.status-ready { border-left: 5px solid var(--cyan); }
+.kds-card.status-completed { border-left: 5px solid var(--success); }
+.kds-card.status-rejected { border-left: 5px solid var(--rose-primary); opacity: 0.8; }
+
+/* Card Header */
+.kds-card-header {
+  padding: 1.1rem 1.25rem 0.85rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(159, 73, 110, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #fffbfc 100%);
+}
+
+.kds-card-order-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.kds-order-number {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-main);
+  letter-spacing: -0.2px;
+}
+
+.kds-order-time {
+  font-size: 0.74rem;
+  color: var(--berry-dark);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.15rem;
+}
+
+/* Customer & Location Banner */
+.kds-card-customer {
+  padding: 0.75rem 1.25rem;
+  background: linear-gradient(135deg, #fff8fa 0%, #ffffff 100%);
+  border-bottom: 1px solid rgba(159, 73, 110, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.customer-avatar-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(225, 29, 72, 0.1) 0%, rgba(159, 73, 110, 0.15) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  color: var(--rose-primary);
+}
+
+.customer-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.customer-name {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.customer-table {
+  font-size: 0.74rem;
+  color: var(--berry-dark);
+  font-weight: 500;
+}
+
+/* Card Body / Items */
+.kds-card-body {
+  padding: 1.1rem 1.25rem;
+  flex: 1;
+}
+
+.kds-items-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--berry-dark);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  margin-bottom: 0.5rem;
+}
+
+.kds-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.kds-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 0.84rem;
+}
+
+.kds-item-main {
+  display: flex;
+  flex-direction: column;
+}
+
+.kds-item-name {
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.kds-item-note {
+  font-size: 0.74rem;
+  color: #b45309;
+  font-weight: 500;
+  margin-top: 0.15rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.kds-item-price {
+  font-weight: 600;
+  color: var(--berry-dark);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+
+/* Kitchen Instructions Pill */
+.kds-instructions-box {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: var(--radius-sm);
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.85rem;
+  font-size: 0.78rem;
+  color: #92400e;
+  font-weight: 500;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.45rem;
+  line-height: 1.4;
+}
+
+.kds-instructions-box svg, .kds-instructions-box .icon {
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+/* Card Footer & Revenue */
+.kds-card-footer {
+  padding: 0.9rem 1.25rem;
+  border-top: 1px solid rgba(159, 73, 110, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #fff9fb 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.kds-revenue-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.kds-revenue-amount {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--rose-primary);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Dynamic Interactive Advance Action Buttons */
+.kds-actions-container {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-kds-advance {
+  flex: 1;
+  padding: 0.65rem 1.1rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  transition: var(--transition);
+}
+
+.btn-kds-accept {
+  background: var(--gradient-primary);
+  color: #ffffff;
+  box-shadow: 0 3px 12px rgba(225, 29, 72, 0.25);
+}
+
+.btn-kds-accept:hover {
+  background: linear-gradient(135deg, #be123c 0%, #e11d48 100%);
+  box-shadow: 0 5px 15px rgba(225, 29, 72, 0.35);
+}
+
+.btn-kds-cook {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(59, 130, 246, 0.25);
+}
+
+.btn-kds-cook:hover { background: #1d4ed8; }
+
+.btn-kds-ready {
+  background: linear-gradient(135deg, #0891b2, #0e7490);
+  color: #fff;
+  box-shadow: 0 3px 12px rgba(8, 145, 178, 0.25);
+}
+
+.btn-kds-ready:hover { background: #155e75; }
+
+.btn-kds-completed {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(52, 211, 153, 0.15) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #047857;
+  cursor: default;
+}
+
+.btn-kds-reject {
+  background: #ffffff;
+  border: 1px solid rgba(225, 29, 72, 0.28);
+  color: var(--rose-primary);
+  padding: 0.65rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-kds-reject:hover {
+  background: var(--gradient-primary);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* ==========================================================================
+   KANBAN BOARD VIEW (Drag & Drop Mode)
+   ========================================================================== */
+.kds-kanban-board {
+  display: none;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.kds-kanban-board.active {
+  display: grid;
+}
+
+.kanban-column {
+  background: linear-gradient(180deg, #ffffff 0%, #fff8fa 100%);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  min-height: 520px;
+  box-shadow: var(--shadow-sm);
+}
+
+.kanban-column-header {
+  padding: 0.85rem 1.1rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border-top-left-radius: var(--radius-lg);
+  border-top-right-radius: var(--radius-lg);
+}
+
+.kanban-column-title {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.kanban-count-pill {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.18rem 0.5rem;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, rgba(225, 29, 72, 0.08) 0%, rgba(159, 73, 110, 0.1) 100%);
+  color: var(--rose-primary);
+}
+
+.kanban-dropzone {
+  padding: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  flex: 1;
+  min-height: 450px;
+}
+
+.kanban-dropzone.drag-over {
+  background: rgba(225, 29, 72, 0.05);
+  border: 2px dashed var(--rose-primary);
+  border-radius: var(--radius-md);
+}
+
+.kds-card[draggable="true"] { cursor: grab; }
+.kds-card[draggable="true"]:active { cursor: grabbing; }

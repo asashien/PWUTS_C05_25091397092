@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NyamCenter | Kitchen Display System</title>
+  
+  <!-- GOOGLE FONT: MONTSERRAT (Sleek Regular/Medium/Semi-bold weights) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet">
+
+  <!-- 100% PURE CUSTOM CSS - TIDAK MENGGUNAKAN BOOTSTRAP -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/kitchen.css">
+  <link rel="stylesheet" href="css/catalog.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Top Ajax Loading Bar -->
+  <div class="ajax-loader" id="ajaxLoader"></div>
+
+  <!-- Mobile Drawer Backdrop Overlay -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+  <div class="app-container">
+    
+    <!-- ====================================================================
+         SIDEBAR NAVIGATION (Mock Up L9, L10, L11)
+         ==================================================================== -->
+    <aside class="sidebar" id="sidebar">
+      <!-- Sidebar Brand Header -->
+      <div class="sidebar-header">
+        <div class="brand-badge">
+          <div class="brand-icon">🍲</div>
+          <div class="brand-text">
+            <h1>Nyam<span>Center</span>.</h1>
+            <div class="brand-sub">PANEL PEMILIK STAN</div>
+          </div>
+        </div>
+
+        <div class="booth-current-badge">
+          <span class="icon">🏪</span>
+          <span class="title" id="sidebarBoothTitle">Stand 01 • Mbok Sri Nusantara</span>
+        </div>
+      </div>
+
+      <!-- Navigation Menu List with Clear Hyperlink Tags -->
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">OPERASIONAL STAN</div>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <a href="#dashboard" class="nav-link ajax-nav-link active" data-route="dashboard" title="Dashboard Utama Stan (Item 2.a via AJAX)">
+              <div class="nav-link-content">
+                <span class="nav-icon">📊</span>
+                <span>Dashboard Stan</span>
+              </div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#kitchen" class="nav-link ajax-nav-link" data-route="kitchen" title="Antarmuka Pesanan Dapur / KDS (Item 2.b via AJAX)">
+              <div class="nav-link-content">
+                <span class="nav-icon">🍳</span>
+                <span>Pesanan Dapur</span>
+                <span class="nav-link-tag"></span>
+              </div>
+              <span class="nav-badge" id="badgeKitchenOrders">1 New</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#catalog" class="nav-link ajax-nav-link" data-route="catalog" title="Manajemen Katalog & Stok Menu (Item 2.c via AJAX)">
+              <div class="nav-link-content">
+                <span class="nav-icon">🍱</span>
+                <span>Katalog & Stok Menu</span>
+                <span class="nav-link-tag"></span>
+              </div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#reviews" class="nav-link ajax-nav-link" data-route="reviews" title="Ulasan Pembeli via AJAX">
+              <div class="nav-link-content">
+                <span class="nav-icon">⭐</span>
+                <span>Rating & Ulasan</span>
+              </div>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#profile" class="nav-link ajax-nav-link" data-route="profile" title="Profil Stan & Rekening via AJAX">
+              <div class="nav-link-content">
+                <span class="nav-icon">👤</span>
+                <span>Profil & Rekening</span>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Sidebar User Footer -->
+      <div class="sidebar-footer">
+        <div class="user-profile-brief">
+          <div class="user-avatar">SR</div>
+          <div class="user-info">
+            <div class="user-name">Ibu Sri Rahayu</div>
+            <div class="user-role">Booth A-01 (Zona Barat)</div>
+          </div>
+        </div>
+        <button class="btn-sidebar-logout" id="btnSidebarLogout" title="Keluar">➔</button>
+      </div>
+    </aside>
+
+    <!-- ====================================================================
+         MAIN WRAPPER (Top Header + Dynamic Ajax Content Area)
+         ==================================================================== -->
+    <div class="main-wrapper">
+      
+      <!-- Top Application Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <button class="btn-mobile-toggle" id="btnMobileToggle" aria-label="Toggle Navigation">☰</button>
+          
+          <div class="operational-pills">
+            <!-- Variative Status Button Pill -->
+            <button class="status-pill-toggle status-open" id="headerStatusPill" title="Klik untuk pilih status operasional stan">
+              <span class="indicator-dot"></span> STAN BUKA
+            </button>
+            <button class="btn-toggle-booth" id="btnToggleBoothStatus" title="Ubah status operasional stan">
+              Ubah Status ▾
+            </button>
+            <span class="hours-pill" id="headerOperatingHours">
+              ⏰ 09:00 - 21:30 WIB
+            </span>
+          </div>
+        </div>
+
+        <div class="header-right">
+          <!-- Real-time Clock -->
+          <div style="font-size: 0.78rem; color: var(--berry-dark); font-weight: 500;" id="headerLiveClock">
+            --:--:-- WIB
+          </div>
+
+          <!-- Booth Owner Profile Pill (Mock Up L9) -->
+          <div class="booth-user-badge">
+            <div class="user-avatar" style="width: 26px; height: 26px; font-size: 0.7rem;">SR</div>
+            <span style="font-size: 0.82rem; font-weight: 600; color: var(--text-main);" class="user-name">Ibu Sri Rahayu</span>
+            <span class="role-tag">BOOTH</span>
+          </div>
+
+          <!-- Logout Button -->
+          <button class="btn-header-logout" id="btnHeaderLogout">
+            <span>➔ Logout</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Dynamic Ajax Content Destination Area -->
+      <main class="view-container" id="mainContentArea">
+        <!-- Loaded dynamically via AJAX fetch() from pages/*.html -->
+        <div style="padding: 4rem; text-align: center; color: var(--berry-dark);">
+          <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">⏳</div>
+          <p>Memuat Panel Operasional Stan NyamCenter...</p>
+        </div>
+      </main>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ====================================================================
+       MODAL: PILIH STATUS OPERASIONAL STAN (VARIATIVE STATUS SYSTEM)
+       ==================================================================== -->
+  <div class="modal-overlay" id="modalBoothStatus">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">⚡ Atur Status Operasional Stan</h3>
+        <button class="btn-modal-close" onclick="App.closeModal('modalBoothStatus')">✕</button>
+      </div>
+      <div class="modal-body">
+        <p style="font-size: 0.8rem; color: var(--berry-dark); margin-bottom: 1.15rem;">
+          Pilih status operasional stan untuk mengontrol penerimaan pesanan dan notifikasi di ponsel pelanggan:
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+          <!-- Opsi 1: Buka & Aktif -->
+          <div onclick="App.setBoothStatus('OPEN', 'Stan dibuka normal dan menerima pesanan.')" style="display: flex; align-items: center; gap: 0.85rem; padding: 0.85rem 1rem; border: 1px solid rgba(16, 185, 129, 0.35); background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(52, 211, 153, 0.12) 100%); border-radius: var(--radius-md); cursor: pointer; transition: transform 0.15s ease;">
+            <span style="font-size: 1.5rem;">🟢</span>
+            <div style="flex: 1;">
+              <div style="font-size: 0.88rem; font-weight: 600; color: #047857;">BUKA & SIAP MELAYANI (Normal)</div>
+              <div style="font-size: 0.74rem; color: var(--text-secondary); margin-top: 2px;">Stan beroperasi penuh dan siap menerima semua pesanan meja.</div>
+            </div>
+          </div>
+
+          <!-- Opsi 2: Dapur Padat / Sedang Sibuk -->
+          <div onclick="App.setBoothStatus('BUSY', 'Status diubah ke Dapur Padat (+15 mnt).')" style="display: flex; align-items: center; gap: 0.85rem; padding: 0.85rem 1rem; border: 1px solid rgba(245, 158, 11, 0.35); background: linear-gradient(135deg, rgba(245, 158, 11, 0.1) 0%, rgba(251, 191, 36, 0.15) 100%); border-radius: var(--radius-md); cursor: pointer; transition: transform 0.15s ease;">
+            <span style="font-size: 1.5rem;">🟡</span>
+            <div style="flex: 1;">
+              <div style="font-size: 0.88rem; font-weight: 600; color: #b45309;">SEDANG SIBUK / ANTRIAN PADAT</div>
+              <div style="font-size: 0.74rem; color: var(--text-secondary); margin-top: 2px;">Tetap terima pesanan, estimasi waktu masak ditambah +15 menit.</div>
+            </div>
+          </div>
+
+          <!-- Opsi 3: Istirahat Sementara -->
+          <div onclick="App.setBoothStatus('BREAK', 'Stan istirahat sementara waktu.')" style="display: flex; align-items: center; gap: 0.85rem; padding: 0.85rem 1rem; border: 1px solid rgba(159, 73, 110, 0.3); background: linear-gradient(135deg, rgba(159, 73, 110, 0.1) 0%, rgba(225, 29, 72, 0.08) 100%); border-radius: var(--radius-md); cursor: pointer; transition: transform 0.15s ease;">
+            <span style="font-size: 1.5rem;">☕</span>
+            <div style="flex: 1;">
+              <div style="font-size: 0.88rem; font-weight: 600; color: var(--berry-dark);">ISTIRAHAT SEMENTARA (Break / Restock)</div>
+              <div style="font-size: 0.74rem; color: var(--text-secondary); margin-top: 2px;">Persiapan bahan baku atau istirahat sholat. Pesanan ditahan sementara.</div>
+            </div>
+          </div>
+
+          <!-- Opsi 4: Tutup Operasional -->
+          <div onclick="App.setBoothStatus('CLOSED', 'Stan ditutup operasional.')" style="display: flex; align-items: center; gap: 0.85rem; padding: 0.85rem 1rem; border: 1px solid rgba(225, 29, 72, 0.35); background: linear-gradient(135deg, rgba(225, 29, 72, 0.08) 0%, rgba(244, 63, 94, 0.12) 100%); border-radius: var(--radius-md); cursor: pointer; transition: transform 0.15s ease;">
+            <span style="font-size: 1.5rem;">🔴</span>
+            <div style="flex: 1;">
+              <div style="font-size: 0.88rem; font-weight: 600; color: var(--rose-primary);">TUTUP OPERASIONAL</div>
+              <div style="font-size: 0.74rem; color: var(--text-secondary); margin-top: 2px;">Stan tutup untuk hari ini dan tidak dapat menerima pesanan baru.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="App.closeModal('modalBoothStatus')">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: TAMBAH REKENING / SALURAN PENCAIRAN BARU -->
+  <div class="modal-overlay" id="modalAddAccount">
+    <div class="modal-dialog" style="max-width: 480px;">
+      <div class="modal-header">
+        <h3 class="modal-title">🏦 Tambah Rekening Pencairan Baru</h3>
+        <button class="btn-modal-close" onclick="App.closeModal('modalAddAccount')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="newAccountBank">Pilihan Bank / E-Wallet Merchant <span class="required">*</span></label>
+          <select id="newAccountBank" class="form-control">
+            <option value="Bank Mandiri">Bank Mandiri</option>
+            <option value="BCA (Bank Central Asia)">BCA (Bank Central Asia)</option>
+            <option value="BRI (Bank Rakyat Indonesia)">BRI (Bank Rakyat Indonesia)</option>
+            <option value="BNI (Bank Negara Indonesia)">BNI (Bank Negara Indonesia)</option>
+            <option value="Bank Jatim">Bank Jatim</option>
+            <option value="ShopeePay Merchant">ShopeePay Merchant</option>
+            <option value="GoPay Merchant">GoPay Merchant</option>
+            <option value="OVO Merchant">OVO Merchant</option>
+            <option value="DANA Bisnis">DANA Bisnis</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="newAccountNo">Nomor Rekening / Nomor Akun HP <span class="required">*</span></label>
+          <input type="text" id="newAccountNo" class="form-control" placeholder="Contoh: 1400019283741 / 08123456789">
+        </div>
+
+        <div class="form-group">
+          <label for="newAccountName">Nama Lengkap Pemilik Rekening <span class="required">*</span></label>
+          <input type="text" id="newAccountName" class="form-control" placeholder="Contoh: Sri Rahayu">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+            <input type="checkbox" id="newAccountIsUtama" checked style="width: 16px; height: 16px; accent-color: var(--rose-primary);">
+            <span>Jadikan sebagai Rekening Pencairan Utama</span>
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-secondary" onclick="App.closeModal('modalAddAccount')">Batal</button>
+        <button type="button" class="btn-primary" onclick="App.saveNewAccount()">Simpan Rekening</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       OFFLINE / CORS FALLBACK TEMPLATES
+       ==================================================================== -->
+  <template id="template-dashboard">
+    <div class="view-header">
+      <div class="view-title-group">
+        <h2>📊 Dashboard Operasional Stan</h2>
+        <div class="view-subtitle">Ringkasan performa omset harian, antrean dapur, dan informasi stan mitra pujasera.</div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <button class="btn-secondary" onclick="NyamStore.resetToDefaults(); App.initDashboard(); App.updateSidebarBadges(); App.showToast('Data Dipulihkan', 'Semua data omset, antrean dapur, dan menu telah di-reset ke data bawaan demo UTS.', 'success');" style="font-size: 0.78rem; padding: 0.5rem 0.95rem;" title="Kembalikan semua data ke status awal demo UTS">
+          <span>↺ Reset Demo</span>
+        </button>
+        <button class="btn-primary ajax-nav-link" data-route="kitchen" title="Buka Kitchen Display via AJAX (Item 2.b)">
+          <span>Buka Pesanan Dapur</span> 🍳
+        </button>
+      </div>
+    </div>
+    <div class="booth-status-banner" id="dashboardStatusBanner"></div>
+    <div class="stats-summary-grid">
+      <div class="stat-card stat-card-turnover">
+        <div class="stat-card-header">
+          <span class="stat-card-title">TODAY'S TURNOVER</span>
+          <div class="stat-card-icon">Rp</div>
+        </div>
+        <div class="stat-card-value" id="statTurnoverValue">Rp 238.000</div>
+        <div class="stat-card-footer">
+          <span>Total pendapatan kotor hari ini</span>
+          <span style="color: #10b981; font-weight: 600;">+14.2%</span>
+        </div>
+      </div>
+      <div class="stat-card stat-card-waiting">
+        <div class="stat-card-header">
+          <span class="stat-card-title">WAITING FOR CONFIRMATION</span>
+          <div class="stat-card-icon">🔔</div>
+        </div>
+        <div class="stat-card-value" id="statWaitingValue">1 Order</div>
+        <div class="stat-card-footer">
+          <span>Perlu konfirmasi segera</span>
+          <a href="#kitchen" class="stat-card-action ajax-nav-link" data-route="kitchen" title="Buka Kitchen Display via AJAX">Open Kitchen →</a>
+        </div>
+      </div>
+      <div class="stat-card stat-card-cooking">
+        <div class="stat-card-header">
+          <span class="stat-card-title">COOKING / IN PROCESS</span>
+          <div class="stat-card-icon">🍳</div>
+        </div>
+        <div class="stat-card-value" id="statCookingValue">1 Order</div>
+        <div class="stat-card-footer">
+          <span>Sedang disiapkan di area dapur</span>
+          <span style="color: #2563eb; font-weight: 500;">Dapur Aktif</span>
+        </div>
+      </div>
+      <div class="stat-card stat-card-menus">
+        <div class="stat-card-header">
+          <span class="stat-card-title">RATING & MENU STAN</span>
+          <div class="stat-card-icon">⭐</div>
+        </div>
+        <div class="stat-card-value" id="statMenusValue">4 Active Menus</div>
+        <div class="stat-card-footer">
+          <span>Skor: ★ 4.9 (2 Ulasan)</span>
+          <a href="#catalog" class="stat-card-action ajax-nav-link" data-route="catalog" title="Kelola Menu via AJAX">Manage Menu →</a>
+        </div>
+      </div>
+    </div>
+    <div class="dashboard-content-split">
+      <div class="kitchen-queue-section">
+        <div class="section-box-header">
+          <div>
+            <h3 class="section-box-title"><span>🍲 Kitchen Queue & Incoming Orders</span></h3>
+            <span class="section-box-desc">Order processing flow according to Sequence Diagram B in SRS NyamCenter</span>
+          </div>
+          <button class="btn-open-kds ajax-nav-link" data-route="kitchen" title="Buka Kitchen Display via AJAX (Item 2.b)">Open the Complete Kitchen Display →</button>
+        </div>
+        <div class="order-queue-list" id="dashboardQueueList"></div>
+      </div>
+      <div class="booth-info-column">
+        <div class="booth-meta-card">
+          <h3 class="card-title"><span>🏪 Culinary Booth Information</span></h3>
+          <div class="card-subtitle">Stan Entity as per CLASS DIAGRAM in SRS Document</div>
+          <div class="booth-photo-wrapper">
+            <img src="data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='220' viewBox='0 0 500 220'%3E%3Cdefs%3E%3ClinearGradient id='bgB2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23fff1f5'/%3E%3Cstop offset='100%25' stop-color='%23ffffff'/%3E%3C/linearGradient%3E%3ClinearGradient id='gr2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23e11d48'/%3E%3Cstop offset='50%25' stop-color='%23f43f5e'/%3E%3Cstop offset='100%25' stop-color='%239f496e'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100%25' height='100%25' fill='url(%23bgB2)'/%3E%3Cpath d='M0,75 L500,75' stroke='url(%23gr2)' stroke-width='4'/%3E%3Ccircle cx='85' cy='135' r='30' fill='url(%23gr2)'/%3E%3Ctext x='85' y='143' fill='%23ffffff' font-family='Montserrat,sans-serif' font-size='18' font-weight='600' text-anchor='middle'%3E01%3C/text%3E%3Ctext x='135' y='130' fill='%23231828' font-family='Montserrat,sans-serif' font-size='18' font-weight='600'%3EStand 01 • Mbok Sri Nusantara%3C/text%3E%3Ctext x='135' y='155' fill='%237c6880' font-family='Montserrat,sans-serif' font-size='12' font-weight='400'%3EZona Barat SWK Surabaya%3C/text%3E%3C/svg%3E" alt="Booth Banner" id="dashBoothPhoto">
+          </div>
+          <div style="margin-bottom: 0.85rem;">
+            <h4 style="color: var(--text-main); font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem;" id="dashBoothName">Stand 01 • Mbok Sri Nusantara</h4>
+            <p style="color: var(--berry-dark); font-size: 0.78rem; line-height: 1.45;" id="dashBoothDesc">Spesialis aneka penyetan sambal ulek segar dan lalapan khas Jawa Timur dengan bumbu rempah warisan nusantara.</p>
+          </div>
+          <div class="booth-details-list">
+            <div class="booth-detail-row"><span class="label">Location Number:</span><span class="value" id="dashBoothLocation">Booth A-01 (West Zone)</span></div>
+            <div class="booth-detail-row"><span class="label">Operating Hours:</span><span class="value" id="dashBoothHours">09:00 - 21:30 WIB</span></div>
+            <div class="booth-detail-row"><span class="label">Disbursement Account:</span><span class="value" id="dashBoothBank">Bank Mandiri • 1400019283741</span></div>
+          </div>
+          <button class="btn-secondary ajax-nav-link" data-route="profile" style="width: 100%; font-size: 0.76rem;">✏️ Update Booth & Account Info</button>
+        </div>
+        <div class="reviews-summary-card">
+          <div class="header">
+            <div class="title"><span>⭐ Buyer Reviews</span></div>
+            <a href="#reviews" class="ajax-nav-link" data-route="reviews" style="font-size: 0.74rem; color: var(--rose-primary); font-weight: 600;">All →</a>
+          </div>
+          <div style="font-size: 0.72rem; color: var(--berry-dark); margin-bottom: 0.75rem;">Customer satisfaction booth</div>
+          <div class="review-preview-item">
+            <div class="review-preview-header"><span class="review-preview-user">Kristina Ina Helan</span><span class="review-stars">★★★★☆</span></div>
+            <p class="review-preview-quote">"The crushed chicken with raw sambal is fragrant with lemongrass, and the portion of rice is just right to fill you up."</p>
+          </div>
+          <div class="review-preview-item">
+            <div class="review-preview-header"><span class="review-preview-user">Budi Santoso</span><span class="review-stars">★★★★★</span></div>
+            <p class="review-preview-quote">"The duck is really tender and the kremes is crispy and delicious! The chili sauce is really great!"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="template-kitchen">
+    <div class="view-header">
+      <div class="view-title-group">
+        <h2>🍳 Kitchen Display & Order Processing</h2>
+        <div class="view-subtitle">
+          Implementation of Sequence Diagram B: Receive Order → Cook (IN_PROCESS) → Ready (READY) → Completed (COMPLETED).
+        </div>
+      </div>
+      <div class="kds-actions-group">
+        <button class="btn-kds-simulate" id="btnSimulateOrder">
+          <span>+ Simulasi Pesanan Masuk</span> 🔔
+        </button>
+        <button class="btn-secondary" id="btnRefreshOrders" style="font-size: 0.78rem; padding: 0.45rem 0.85rem;">
+          <span>🔄 Refresh Order</span>
+        </button>
+        <button class="btn-secondary" id="btnResetOrders" title="Kembalikan semua pesanan dapur ke data demo awal UTS" style="font-size: 0.78rem; padding: 0.45rem 0.85rem;">
+          <span>↺ Reset Data Demo</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- KDS TOOLBAR (FILTERS & VIEW SWITCHER) -->
+    <div class="kds-toolbar">
+      <div class="kds-filter-pills">
+        <button class="btn-filter-pill pill-all active" data-status="ALL">
+          All Orders
+        </button>
+        <button class="btn-filter-pill pill-waiting" data-status="WAITING_ACCEPTANCE">
+          ⏳ Waiting for Confirmation
+        </button>
+        <button class="btn-filter-pill pill-cooking" data-status="IN_PROCESS">
+          🍳 Cooking
+        </button>
+        <button class="btn-filter-pill pill-ready" data-status="READY">
+          🔔 Ready for Pickup / Delivery
+        </button>
+        <button class="btn-filter-pill pill-finished" data-status="COMPLETED">
+          ✅ Finished
+        </button>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <span style="font-size: 0.75rem; color: var(--text-muted);">Mode Tampilan:</span>
+        <button class="btn-view-toggle active" id="btnViewGrid" title="Tampilan Kartu Grid (Mock Up L10)">
+          ⏹️ Grid
+        </button>
+        <button class="btn-view-toggle" id="btnViewKanban" title="Tampilan Papan Geser Kanban Drag & Drop">
+          📋 Kanban Board
+        </button>
+      </div>
+    </div>
+
+    <!-- 1. GRID VIEW CONTAINER (Default Mock Up L10) -->
+    <div class="kds-grid" id="kdsGridView">
+      <!-- Dynamic cards rendered by KitchenModule.render() -->
+    </div>
+
+    <!-- 2. KANBAN DRAG & DROP BOARD CONTAINER -->
+    <div class="kds-kanban-board" id="kdsKanbanView">
+      <!-- Column 1: Waiting -->
+      <div class="kanban-column" id="kanbanWaiting">
+        <div class="kanban-column-header">
+          <span class="kanban-column-title" style="color: #fbbf24;">
+            <span>⏳ Menunggu</span>
+          </span>
+          <span class="kanban-count-pill">0</span>
+        </div>
+        <div class="kanban-dropzone" data-target-status="WAITING_ACCEPTANCE"></div>
+      </div>
+
+      <!-- Column 2: Cooking -->
+      <div class="kanban-column" id="kanbanCooking">
+        <div class="kanban-column-header">
+          <span class="kanban-column-title" style="color: #60a5fa;">
+            <span>🍳 Sedang Dimasak</span>
+          </span>
+          <span class="kanban-count-pill">0</span>
+        </div>
+        <div class="kanban-dropzone" data-target-status="IN_PROCESS"></div>
+      </div>
+
+      <!-- Column 3: Ready -->
+      <div class="kanban-column" id="kanbanReady">
+        <div class="kanban-column-header">
+          <span class="kanban-column-title" style="color: #22d3ee;">
+            <span>🔔 Siap Saji</span>
+          </span>
+          <span class="kanban-count-pill">0</span>
+        </div>
+        <div class="kanban-dropzone" data-target-status="READY"></div>
+      </div>
+
+      <!-- Column 4: Completed -->
+      <div class="kanban-column" id="kanbanCompleted">
+        <div class="kanban-column-header">
+          <span class="kanban-column-title" style="color: #4ade80;">
+            <span>✅ Selesai</span>
+          </span>
+          <span class="kanban-count-pill">0</span>
+        </div>
+        <div class="kanban-dropzone" data-target-status="COMPLETED"></div>
+      </div>
+    </div>
+
+    <!-- MODAL TOLAK PESANAN & TRIGGER REFUND (Activity Diagram 5.b) -->
+    <div class="modal-overlay" id="modalRejectOrder">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <h3 class="modal-title" style="color: #ef4444;">
+            <span>⛔ Tolak Sub-Pesanan & Trigger Refund</span>
+          </h3>
+          <button class="btn-modal-close" onclick="KitchenModule.closeModal('modalRejectOrder')">✕</button>
+        </div>
+        <div class="modal-body">
+          <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">
+            Sesuai SRS <em>Activity Diagram 5.b</em>: SubPesanan yang ditolak oleh pemilik stan setelah pembayaran lunas akan secara otomatis memicu catatan <strong>Refund</strong> dan mengembalikan dana ke pelanggan.
+          </p>
+
+          <div style="background: rgba(255,255,255,0.04); padding: 0.85rem; border-radius: var(--radius-sm); margin-bottom: 1rem; font-size: 0.8rem;">
+            <div>Nomor Pesanan: <strong style="color: var(--text-main);" id="rejectOrderId">-</strong></div>
+            <div>Nama Pelanggan: <span style="color: var(--text-secondary);" id="rejectCustomerName">-</span></div>
+          </div>
+
+          <input type="hidden" id="rejectSubId">
+
+          <div class="form-group">
+            <label for="rejectReasonInput">Alasan Penolakan <span class="required">*</span></label>
+            <textarea id="rejectReasonInput" class="form-control" rows="3" placeholder="Tuliskan alasan penolakan..."></textarea>
+            <div class="form-hint">Alasan ini akan dikirim via notifikasi ke aplikasi ponsel pelanggan.</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" onclick="KitchenModule.closeModal('modalRejectOrder')">Batal</button>
+          <button class="btn-danger" onclick="KitchenModule.confirmReject()">Konfirmasi Tolak & Refund</button>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="template-catalog">
+    <div class="view-header">
+      <div class="view-title-group">
+        <h2>🍱 Manajemen Katalog & Stok Menu Stan</h2>
+        <div class="view-subtitle">Implementasi Sequence Diagram C & Diagram 1.2: Tambah menu baru, edit rincian harga, hapus, dan toggle stok ketersediaan real-time.</div>
+      </div>
+      <div>
+        <button class="btn-add-menu" id="btnOpenAddMenu"><span>+ Tambah Menu Baru</span></button>
+      </div>
+    </div>
+    <div class="catalog-toolbar">
+      <div class="catalog-filters">
+        <button class="btn-filter-pill btn-catalog-filter active" data-filter="ALL">Semua Menu <span id="filterCountAll">(4)</span></button>
+        <button class="btn-filter-pill btn-catalog-filter" data-filter="AVAILABLE">🟢 Stok Tersedia <span id="filterCountAvailable">(4)</span></button>
+        <button class="btn-filter-pill btn-catalog-filter" data-filter="SOLDOUT">🔴 Stok Habis <span id="filterCountSoldout">(0)</span></button>
+      </div>
+      <div class="catalog-search-box">
+        <span class="catalog-search-icon">🔍</span>
+        <input type="text" id="catalogSearchInput" class="catalog-search-input" placeholder="Cari nama menu, deskripsi...">
+      </div>
+    </div>
+    <div class="catalog-grid" id="catalogGridContainer"></div>
+    <div class="modal-overlay" id="modalMenuForm">
+      <div class="modal-dialog">
+        <div class="modal-header">
+          <h3 class="modal-title" id="modalMenuTitle">🍱 Tambah Menu Baru ke Stan</h3>
+          <button class="btn-modal-close" onclick="CatalogModule.closeModal('modalMenuForm')">✕</button>
+        </div>
+        <form id="formMenu" novalidate>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="menuNameInput">Nama Menu Makanan / Minuman <span class="required">*</span></label>
+              <input type="text" id="menuNameInput" class="form-control" placeholder="Contoh: Bebek Goreng Sambal Korek" autocomplete="off">
+              <div class="form-error-feedback" id="errorMenuName"></div>
+              <div class="form-hint">Nama resmi yang tampil di katalog pelanggan & kitchen display.</div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="menuCategorySelect">Kategori Produk <span class="required">*</span></label>
+                <select id="menuCategorySelect" class="form-control">
+                  <option value="">-- Pilih Kategori --</option>
+                  <option value="1">Makanan Berat</option>
+                  <option value="2">Jajanan & Dimsum</option>
+                  <option value="3">Minuman & Kopi</option>
+                  <option value="4">Camilan & Penutup</option>
+                </select>
+                <div class="form-error-feedback" id="errorMenuCategory"></div>
+              </div>
+              <div class="form-group">
+                <label for="menuPriceInput">Harga Jual (Rp) <span class="required">*</span></label>
+                <input type="number" id="menuPriceInput" class="form-control" placeholder="Contoh: 35000" min="1000" step="500">
+                <div class="form-error-feedback" id="errorMenuPrice"></div>
+                <div class="form-hint" id="menuPricePreview">Format: angka tanpa titik/koma</div>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="menuStockInput">Jumlah Stok Porsi <span class="required">*</span></label>
+                <input type="number" id="menuStockInput" class="form-control" placeholder="Contoh: 25" min="0" value="20">
+                <div class="form-error-feedback" id="errorMenuStock"></div>
+                <div class="form-hint">Jumlah ketersediaan porsi per hari.</div>
+              </div>
+              <div class="form-group" style="display: flex; flex-direction: column; justify-content: center;">
+                <label>Status Ketersediaan</label>
+                <div style="display: flex; align-items: center; gap: 0.6rem; margin-top: 0.35rem;">
+                  <input type="checkbox" id="menuAvailableToggle" checked style="width: 18px; height: 18px; accent-color: var(--primary); cursor: pointer;">
+                  <label for="menuAvailableToggle" style="margin-bottom: 0; cursor: pointer; color: var(--text-main); font-weight: 600;">Tersedia Langsung di Katalog</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="menuDescInput">Deskripsi Makanan / Minuman <span class="required">*</span></label>
+              <textarea id="menuDescInput" class="form-control" rows="3" placeholder="Jelaskan cita rasa, bumbu khas, atau keunggulan menu ini..."></textarea>
+              <div class="form-error-feedback" id="errorMenuDesc"></div>
+              <div class="form-hint">Minimal 10 karakter untuk memberi informasi lengkap ke pelanggan.</div>
+            </div>
+            <div class="form-group">
+              <label>Unggah Foto Produk Makanan <span class="required">*</span></label>
+              <div class="image-upload-wrapper">
+                <input type="file" id="menuImageFile" accept="image/jpeg, image/png, image/webp" style="display: none;">
+                <div class="image-dropzone" id="menuImageDropzone">
+                  <div class="image-dropzone-inner">
+                    <span class="image-dropzone-icon">📷</span>
+                    <span class="image-dropzone-text"><strong>Klik untuk unggah</strong> atau geser & lepas file foto ke sini</span>
+                    <span class="image-dropzone-sub">Mendukung format JPG, PNG, atau WebP (Maksimal 2MB)</span>
+                  </div>
+                </div>
+                <div class="image-preview-box" id="menuImagePreviewBox">
+                  <img src="" id="menuImagePreviewImg" alt="Preview Foto Menu">
+                  <button type="button" class="btn-remove-preview" id="btnRemovePhoto" title="Hapus Foto">✕</button>
+                </div>
+                <div class="form-error-feedback" id="errorMenuPhoto"></div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn-secondary" onclick="CatalogModule.closeModal('modalMenuForm')">Batal</button>
+            <button type="submit" class="btn-primary" id="btnSubmitMenu"><span>Simpan Data Menu</span> 💾</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </template>
+
+  <template id="template-reviews">
+    <div class="view-header">
+      <div class="view-title-group">
+        <h2>⭐ Ulasan & Kepuasan Pelanggan Stan</h2>
+        <div class="view-subtitle">Implementasi Sequence Diagram D: Tinjau umpan balik, rating bintang 1-5, dan ulasan langsung dari pembeli menu Anda.</div>
+      </div>
+      <div>
+        <button class="btn-secondary" onclick="App.initReviews(); App.showToast('Ulasan Dimuat Ulang', 'Daftar rating telah diperbarui.', 'info');" style="font-size: 0.78rem;">🔄 Refresh Ulasan</button>
+      </div>
+    </div>
+    <div class="dashboard-content-split" style="margin-bottom: 1.5rem;">
+      <div class="card" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem;">
+        <div style="font-size: 0.78rem; font-weight: 600; color: var(--berry-dark); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.5rem;">SKOR RATING STAN</div>
+        <div style="font-size: 3.2rem; font-weight: 700; color: var(--rose-primary); line-height: 1;">4.9</div>
+        <div style="color: #f59e0b; font-size: 1.35rem; margin: 0.5rem 0;">★★★★★</div>
+        <div style="color: var(--berry-dark); font-size: 0.8rem; font-weight: 500;">Berdasarkan 2 total ulasan pelanggan terverifikasi</div>
+      </div>
+      <div class="card" style="padding: 1.5rem;">
+        <h4 style="color: var(--text-main); font-size: 0.95rem; font-weight: 600; margin-bottom: 1rem;">Distribusi Rating Kepuasan</h4>
+        <div style="display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.78rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 60px; color: var(--text-secondary); font-weight: 500;">5 Bintang</span><div style="flex: 1; height: 8px; background: rgba(159,73,110,0.1); border-radius: 4px; overflow: hidden;"><div style="width: 50%; height: 100%; background: #f59e0b; border-radius: 4px;"></div></div><span style="color: var(--berry-dark); width: 45px; text-align: right; font-weight: 600;">1 review</span></div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 60px; color: var(--text-secondary); font-weight: 500;">4 Bintang</span><div style="flex: 1; height: 8px; background: rgba(159,73,110,0.1); border-radius: 4px; overflow: hidden;"><div style="width: 50%; height: 100%; background: #f59e0b; border-radius: 4px;"></div></div><span style="color: var(--berry-dark); width: 45px; text-align: right; font-weight: 600;">1 review</span></div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 60px; color: var(--text-secondary); font-weight: 500;">3 Bintang</span><div style="flex: 1; height: 8px; background: rgba(159,73,110,0.1); border-radius: 4px; overflow: hidden;"><div style="width: 0%; height: 100%; background: #f59e0b; border-radius: 4px;"></div></div><span style="color: var(--berry-dark); width: 45px; text-align: right; font-weight: 600;">0 review</span></div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 60px; color: var(--text-secondary); font-weight: 500;">2 Bintang</span><div style="flex: 1; height: 8px; background: rgba(159,73,110,0.1); border-radius: 4px; overflow: hidden;"><div style="width: 0%; height: 100%; background: #f59e0b; border-radius: 4px;"></div></div><span style="color: var(--berry-dark); width: 45px; text-align: right; font-weight: 600;">0 review</span></div>
+          <div style="display: flex; align-items: center; gap: 0.75rem;"><span style="width: 60px; color: var(--text-secondary); font-weight: 500;">1 Bintang</span><div style="flex: 1; height: 8px; background: rgba(159,73,110,0.1); border-radius: 4px; overflow: hidden;"><div style="width: 0%; height: 100%; background: #f59e0b; border-radius: 4px;"></div></div><span style="color: var(--berry-dark); width: 45px; text-align: right; font-weight: 600;">0 review</span></div>
+        </div>
+      </div>
+    </div>
+    <h3 style="color: var(--text-main); font-size: 1.05rem; font-weight: 600; margin-bottom: 0.95rem; display: flex; align-items: center; gap: 0.5rem;"><span>💬 Riwayat Testimoni & Komentar Pembeli</span></h3>
+    <div id="reviewsFullList"></div>
+  </template>
+
+  <template id="template-profile">
+    <div class="view-header">
+      <div class="view-title-group">
+        <h2>🏪 Profil Stan, Metode Pembayaran & Rekening</h2>
+        <div class="view-subtitle">Setup Stan entity data, accepted payment methods, and bank disbursement accounts as per CLASS DIAGRAM.</div>
+      </div>
+    </div>
+    <div class="dashboard-content-split">
+      <div class="card">
+        <h3 style="color: var(--text-main); font-size: 1.05rem; font-weight: 600; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;"><span>✏️ Update Informasi Operasional Stan</span></h3>
+        <p style="font-size: 0.78rem; color: var(--berry-dark); margin-bottom: 1.35rem;">Data ini akan tampil di katalog QR pelanggan, struk digital, dan sistem admin pujasera.</p>
+        <form id="formBoothProfile">
+          <div class="form-group">
+            <label for="profileBoothName">Culinary Booth Name (Nama Stan) <span class="required">*</span></label>
+            <input type="text" id="profileBoothName" class="form-control" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="profileLocation">Location / Booth Number <span class="required">*</span></label>
+              <input type="text" id="profileLocation" class="form-control" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="profileOpenHour">Jam Buka</label>
+                <input type="text" id="profileOpenHour" class="form-control" placeholder="09:00">
+              </div>
+              <div class="form-group">
+                <label for="profileCloseHour">Jam Tutup</label>
+                <input type="text" id="profileCloseHour" class="form-control" placeholder="21:30">
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="profileDescription">Deskripsi & Profil Masakan Stan</label>
+            <textarea id="profileDescription" class="form-control" rows="3"></textarea>
+          </div>
+          <div style="background: linear-gradient(135deg, #fff7fa 0%, #ffffff 100%); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; margin-top: 1rem; margin-bottom: 1.35rem;">
+            <h4 style="color: var(--rose-primary); font-size: 0.88rem; font-weight: 600; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.45rem;">
+              <span>💳 Pilihan Metode Pembayaran yang Diterima</span>
+            </h4>
+            <p style="color: var(--berry-dark); font-size: 0.76rem; margin-bottom: 0.85rem;">Atur opsi saluran pembayaran yang aktif untuk pesanan menu stan ini di kasir dan aplikasi meja pelanggan.</p>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; font-size: 0.82rem;">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" id="pmQris" checked style="width: 17px; height: 17px; accent-color: var(--rose-primary);">
+                <span><strong>QRIS Dinamis</strong> (GoPay, OVO, ShopeePay, BCA)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" id="pmVa" checked style="width: 17px; height: 17px; accent-color: var(--rose-primary);">
+                <span><strong>Transfer VA Bank</strong> (BCA, Mandiri, BRI)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" id="pmEwallet" checked style="width: 17px; height: 17px; accent-color: var(--rose-primary);">
+                <span><strong>E-Wallet Instan</strong> (Dana, ShopeePay, GoPay)</span>
+              </label>
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" id="pmCash" checked style="width: 17px; height: 17px; accent-color: var(--rose-primary);">
+                <span><strong>Tunai di Kasir Stan / COD</strong></span>
+              </label>
+            </div>
+          </div>
+          <div style="background: linear-gradient(135deg, #fff7fa 0%, #ffffff 100%); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 1.25rem; margin-top: 1rem; margin-bottom: 1.35rem;">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.25rem;">
+              <h4 style="color: var(--rose-primary); font-size: 0.88rem; font-weight: 600; display: flex; align-items: center; gap: 0.45rem;">
+                <span>🏦 Rekening & Saluran Pencairan Dana Penjualan</span>
+              </h4>
+              <button type="button" class="btn-secondary" onclick="App.openAddAccountModal()" style="font-size: 0.72rem; padding: 0.35rem 0.75rem;">+ Tambah Rekening Baru</button>
+            </div>
+            <p style="color: var(--berry-dark); font-size: 0.76rem; margin-bottom: 0.85rem;">Rekening tujuan transfer omset hasil penjualan stan dari pengelola pusat pujasera (Admin SWK).</p>
+            <div id="disbursementAccountsList"></div>
+          </div>
+          <button type="submit" class="btn-primary" style="padding: 0.65rem 1.5rem;"><span>💾 Simpan Perubahan Profil Stan</span></button>
+        </form>
+      </div>
+      <div class="booth-info-column">
+        <div class="card">
+          <h3 style="color: var(--text-main); font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.45rem;"><span>⚡ Status Operasional Stan</span></h3>
+          <div style="font-size: 0.72rem; color: var(--berry-dark); margin-bottom: 1rem;">CLASS DIAGRAM Method: openStan() / closeStan() / setBusy()</div>
+          <div id="profileStatusCardContent"></div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <!-- ====================================================================
+       APPLICATION JAVASCRIPT MODULES
+       ==================================================================== -->
+  <script src="js/data.js"></script>
+  <script src="js/kitchen.js"></script>
+  <script src="js/catalog.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!-- pages/reviews.html - Mock Up L12: Ulasan & Kepuasan Pelanggan Stan -->
+<div class="view-header">
+  <div class="view-title-group">
+    <h2>⭐ Ulasan & Kepuasan Pelanggan Stan</h2>
+    <div class="view-subtitle">
+      Implementasi Sequence Diagram D: Tinjau umpan balik, rating bintang 1-5, dan ulasan langsung dari pembeli menu Anda.
+    </div>
+  </div>
+  <div>
+    <button class="btn-secondary" onclick="App.initReviews(); App.showToast('Ulasan Dimuat Ulang', 'Daftar rating telah diperbarui.', 'info');" style="font-size: 0.78rem;">
+      🔄 Refresh Ulasan
+    </button>
+  </div>
+</div>
+
+<!-- REVIEW STATS OVERVIEW (Mock Up L12) -->
+<div class="dashboard-content-split" style="margin-bottom: 1.5rem;">
+  <!-- Left Score Box -->
+  <div class="card" style="text-align: center; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 2rem;">
+    <div style="font-size: 0.78rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.5rem;">
+      SKOR RATING STAN
+    </div>
+    <div style="font-size: 3.5rem; font-weight: 900; color: var(--rose-primary); line-height: 1;">4.9</div>
+    <div style="color: #f59e0b; font-size: 1.35rem; margin: 0.5rem 0;">★★★★★</div>
+    <div style="color: var(--berry-dark); font-size: 0.8rem; font-weight: 500;">Berdasarkan 2 total ulasan pelanggan terverifikasi</div>
+  </div>
+
+  <!-- Right Distribution Bars -->
+  <div class="card" style="padding: 1.5rem;">
+    <h4 style="color: var(--text-main); font-size: 0.95rem; font-weight: 800; margin-bottom: 1rem;">Distribusi Rating Kepuasan</h4>
+    <div style="display: flex; flex-direction: column; gap: 0.65rem; font-size: 0.78rem;">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span style="width: 60px; color: var(--text-secondary);">5 Bintang</span>
+        <div style="flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
+          <div style="width: 50%; height: 100%; background: #f59e0b; border-radius: 4px;"></div>
+        </div>
+        <span style="color: var(--text-muted); width: 45px; text-align: right;">1 review</span>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span style="width: 60px; color: var(--text-secondary);">4 Bintang</span>
+        <div style="flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
+          <div style="width: 50%; height: 100%; background: #f59e0b; border-radius: 4px;"></div>
+        </div>
+        <span style="color: var(--text-muted); width: 45px; text-align: right;">1 review</span>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span style="width: 60px; color: var(--text-secondary);">3 Bintang</span>
+        <div style="flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
+          <div style="width: 0%; height: 100%; background: #f59e0b; border-radius: 4px;"></div>
+        </div>
+        <span style="color: var(--text-muted); width: 45px; text-align: right;">0 review</span>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span style="width: 60px; color: var(--text-secondary);">2 Bintang</span>
+        <div style="flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
+          <div style="width: 0%; height: 100%; background: #f59e0b; border-radius: 4px;"></div>
+        </div>
+        <span style="color: var(--text-muted); width: 45px; text-align: right;">0 review</span>
+      </div>
+
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <span style="width: 60px; color: var(--text-secondary);">1 Bintang</span>
+        <div style="flex: 1; height: 8px; background: rgba(255,255,255,0.06); border-radius: 4px; overflow: hidden;">
+          <div style="width: 0%; height: 100%; background: #f59e0b; border-radius: 4px;"></div>
+        </div>
+        <span style="color: var(--text-muted); width: 45px; text-align: right;">0 review</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REVIEW LIST CONTAINER (Mock Up L12) -->
+<h3 style="color: var(--text-main); font-size: 1.05rem; font-weight: 800; margin-bottom: 0.95rem; display: flex; align-items: center; gap: 0.5rem;">
+  <span>💬 Riwayat Testimoni & Komentar Pembeli</span>
+</h3>
+<div id="reviewsFullList">
+  <!-- Rendered dynamically -->
+</div>

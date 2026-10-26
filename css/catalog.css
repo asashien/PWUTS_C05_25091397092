@@ -1,0 +1,399 @@
+/**
+ * catalog.css - Mock Up L11: Formulir Manajemen Katalog & Stok
+ * 100% Custom CSS for Menu Catalog Management, Stock Toggling & Form Modal
+ * Palette: #e11d48, #f43f5e, #9f496e | Base: White Gradient
+ * Typography: Montserrat (Sleek, Non-Bold)
+ */
+
+/* CATALOG TOOLBAR & SEARCH (Mock Up L11) */
+.catalog-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.catalog-filters {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.catalog-search-box {
+  position: relative;
+  min-width: 280px;
+}
+
+.catalog-search-input {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid rgba(159, 73, 110, 0.2);
+  border-radius: var(--radius-full);
+  color: var(--text-main);
+  padding: 0.55rem 1.1rem 0.55rem 2.3rem;
+  font-size: 0.82rem;
+  font-weight: 400;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.catalog-search-input:focus {
+  border-color: var(--rose-primary);
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.14);
+}
+
+.catalog-search-icon {
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--berry-dark);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.btn-add-menu {
+  background: var(--gradient-primary);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.82rem;
+  padding: 0.6rem 1.25rem;
+  border-radius: var(--radius-full);
+  box-shadow: 0 3px 12px rgba(225, 29, 72, 0.25);
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.btn-add-menu:hover {
+  background: linear-gradient(135deg, #be123c 0%, #e11d48 100%);
+  box-shadow: 0 5px 16px rgba(225, 29, 72, 0.35);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   CATALOG GRID & MENU CARDS (Mock Up L11)
+   ========================================================================== */
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.35rem;
+}
+
+.menu-card {
+  background-color: #ffffff;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.menu-card:hover {
+  border-color: rgba(225, 29, 72, 0.25);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.menu-card.is-sold-out {
+  opacity: 0.8;
+}
+
+/* Card Image Header with Overlays */
+.menu-image-container {
+  position: relative;
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(135deg, #fce7ed 0%, #fff1f5 100%);
+  overflow: hidden;
+}
+
+.menu-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.menu-card:hover .menu-image-container img {
+  transform: scale(1.04);
+}
+
+/* Category Badge (Top Left - Plum Berry) */
+.category-overlay-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background: linear-gradient(135deg, rgba(159, 73, 110, 0.92) 0%, rgba(225, 29, 72, 0.92) 100%);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  z-index: 2;
+  box-shadow: 0 2px 6px rgba(159, 73, 110, 0.25);
+}
+
+/* Stock Status Pill (Top Right) */
+.stock-overlay-badge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-full);
+  z-index: 2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+}
+
+.stock-overlay-badge.in-stock {
+  background: linear-gradient(135deg, #059669, #10b981);
+  color: #fff;
+}
+
+.stock-overlay-badge.out-of-stock {
+  background: linear-gradient(135deg, #be123c, #e11d48);
+  color: #fff;
+}
+
+/* Menu Content Details */
+.menu-card-body {
+  padding: 1.15rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.menu-card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 0.3rem;
+  line-height: 1.3;
+}
+
+.menu-card-price {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--rose-primary);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 0.55rem;
+}
+
+.menu-card-desc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  margin-bottom: 0.85rem;
+  flex: 1;
+}
+
+.menu-stock-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.74rem;
+  color: var(--berry-dark);
+  font-weight: 500;
+  padding-bottom: 0.4rem;
+}
+
+/* Footer Action Bar with Stock Toggle (Mock Up L11) */
+.menu-card-actions {
+  padding: 0.85rem 1.25rem;
+  border-top: 1px solid rgba(159, 73, 110, 0.08);
+  background: linear-gradient(180deg, #ffffff 0%, #fff9fb 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.stock-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.stock-toggle-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.btn-toggle-stock {
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.btn-toggle-stock.btn-mark-soldout {
+  background: linear-gradient(135deg, rgba(225, 29, 72, 0.08) 0%, rgba(244, 63, 94, 0.12) 100%);
+  border: 1px solid rgba(225, 29, 72, 0.3);
+  color: var(--rose-primary);
+}
+
+.btn-toggle-stock.btn-mark-soldout:hover {
+  background: var(--gradient-primary);
+  color: #fff;
+  border-color: transparent;
+}
+
+.btn-toggle-stock.btn-mark-available {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(52, 211, 153, 0.12) 100%);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  color: #047857;
+}
+
+.btn-toggle-stock.btn-mark-available:hover {
+  background: linear-gradient(135deg, #059669, #10b981);
+  color: #fff;
+  border-color: transparent;
+}
+
+.menu-buttons-row {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.btn-edit-menu {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid rgba(159, 73, 110, 0.2);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+
+.btn-edit-menu:hover {
+  background: #fff5f8;
+  color: var(--rose-primary);
+  border-color: var(--rose-primary);
+}
+
+.btn-delete-menu {
+  background: #ffffff;
+  border: 1px solid rgba(225, 29, 72, 0.25);
+  color: var(--rose-primary);
+  padding: 0.45rem 0.7rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+
+.btn-delete-menu:hover {
+  background: var(--gradient-primary);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* ==========================================================================
+   IMAGE UPLOAD DROPZONE & PREVIEW
+   ========================================================================== */
+.image-upload-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.image-dropzone {
+  border: 2px dashed rgba(225, 29, 72, 0.3);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  text-align: center;
+  cursor: pointer;
+  background: linear-gradient(135deg, #fff7fa 0%, #ffffff 100%);
+  transition: var(--transition);
+  position: relative;
+}
+
+.image-dropzone:hover, .image-dropzone.dragover {
+  border-color: var(--rose-primary);
+  background: #fff0f4;
+  box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);
+}
+
+.image-dropzone-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.image-dropzone-icon {
+  font-size: 2rem;
+  color: var(--rose-primary);
+}
+
+.image-dropzone-text {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.image-dropzone-sub {
+  font-size: 0.72rem;
+  color: var(--berry-dark);
+}
+
+.image-preview-box {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+  margin-top: 0.5rem;
+  display: none;
+  box-shadow: var(--shadow-sm);
+}
+
+.image-preview-box.active {
+  display: block;
+}
+
+.image-preview-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.btn-remove-preview {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  background: rgba(35, 24, 40, 0.75);
+  color: #fff;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.btn-remove-preview:hover {
+  background: var(--rose-primary);
+}
